@@ -1,0 +1,6 @@
+@Back_HostAddress = http://localhost:5092
+
+GET {{Back_HostAddress}}/auth/
+Accept: application/json
+
+###
