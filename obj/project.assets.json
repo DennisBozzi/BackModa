@@ -3795,11 +3795,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Bozzi\\Back\\Back.csproj",
+      "projectUniqueName": "C:\\Moda\\Back\\Back.csproj",
       "projectName": "Back",
-      "projectPath": "C:\\Bozzi\\Back\\Back.csproj",
+      "projectPath": "C:\\Moda\\Back\\Back.csproj",
       "packagesPath": "C:\\Users\\denno\\.nuget\\packages\\",
-      "outputPath": "C:\\Bozzi\\Back\\obj\\",
+      "outputPath": "C:\\Moda\\Back\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

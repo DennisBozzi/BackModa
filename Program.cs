@@ -2,6 +2,7 @@ using Back.Service.UserService;
 using FirebaseAdmin;
 using System.Text;
 using Back.Context;
+using Back.Service.ValorService;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ FirebaseApp.Create(new AppOptions
 });
 
 builder.Services.AddScoped<IAuthInterface, AuthService>();
+builder.Services.AddScoped<IValorInterface, ValorService>();
 
 builder.Services.AddHttpClient<string>(client =>
 {
