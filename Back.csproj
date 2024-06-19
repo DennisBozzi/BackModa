@@ -29,17 +29,27 @@
 
   <ItemGroup>
     <Folder Include="Enums\" />
-    <Folder Include="Service\UserService\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Back.http" />
+    <None Remove="Service\UserService\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Update="Properties\firebase.json">
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </Content>
+    <Content Remove="Service\UserService\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Service\UserService\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Service\UserService\**" />
   </ItemGroup>
 
 </Project>

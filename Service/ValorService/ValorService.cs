@@ -6,10 +6,7 @@ namespace Back.Service.ValorService;
 
 public class ValorService : IValorInterface
 {
-    private readonly HttpClient _httpClient;
-    private readonly IConfiguration _configuration;
     private readonly AppDbContext _context;
-
 
     public ValorService(AppDbContext context)
     {
@@ -42,8 +39,9 @@ public class ValorService : IValorInterface
 
         try
         {
-            _context.Valores.Add(newValor);
+            isValorExist(preco);
 
+            _context.Valores.Add(newValor);
             await _context.SaveChangesAsync();
 
             response.Objeto = _context.Valores.ToList();
@@ -66,6 +64,8 @@ public class ValorService : IValorInterface
         {
             Valor valor = _context.Valores.FirstOrDefault(x => x.Id == id);
 
+            isValorInProduto(id);
+
             if (valor == null)
             {
                 throw new Exception("Valor não encontrado!");
@@ -85,7 +85,22 @@ public class ValorService : IValorInterface
             response.Successo = false;
         }
 
-
         return response;
+    }
+
+    public void isValorExist(double preco)
+    {
+        if (_context.Valores.FirstOrDefault(x => x.Preco == preco) != null)
+        {
+            throw new Exception("Este valor já existe!");
+        }
+    }
+
+    public void isValorInProduto(int id)
+    {
+        if (_context.Produtos.FirstOrDefault(x => x.Valor.Id == id) != null)
+        {
+            throw new Exception("Existem produtos vinculados a esse valor!");
+        }
     }
 }

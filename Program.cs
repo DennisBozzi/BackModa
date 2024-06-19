@@ -2,7 +2,10 @@ using Back.Service.UserService;
 using FirebaseAdmin;
 using System.Text;
 using Back.Context;
+using Back.Models;
+using Back.Service.ProdutoService;
 using Back.Service.ValorService;
+using Back.Service.VendaService;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +21,8 @@ FirebaseApp.Create(new AppOptions
 
 builder.Services.AddScoped<IAuthInterface, AuthService>();
 builder.Services.AddScoped<IValorInterface, ValorService>();
+builder.Services.AddScoped<IProdutoInterface, ProdutoService>();
+builder.Services.AddScoped<IVendaInterface, VendaService>();
 
 builder.Services.AddHttpClient<string>(client =>
 {
