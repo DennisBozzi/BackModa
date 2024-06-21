@@ -2,6 +2,6 @@
 
 public class CreateProdutoDto
 {
-    public int valorId { get; set; }
-    public int quantidade { get; set; }
+    public string Nome { get; set; }
+    public double Preco { get; set; }
 }

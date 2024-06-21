@@ -21,7 +21,7 @@ public class ProdutoService : IProdutoInterface
 
         try
         {
-            response.Objeto = _context.Produtos.Include(x => x.Valor).ToList();
+            response.Objeto = _context.Produtos.Include(x => x.Venda.Id).ToList();
             response.Mensagem = "Produtos retornados com sucesso!";
         }
         catch (Exception e)
@@ -37,7 +37,7 @@ public class ProdutoService : IProdutoInterface
     {
         ServiceResponse<Produto> response = new();
 
-        Produto produto = _context.Produtos.Include(x => x.Valor).FirstOrDefault(x => x.Id == id);
+        Produto produto = _context.Produtos.Include(x => x.Venda.Id).FirstOrDefault(x => x.Id == id);
 
         try
         {
@@ -56,38 +56,17 @@ public class ProdutoService : IProdutoInterface
         return response;
     }
 
-    public async Task<ServiceResponse<List<Produto>>> CreateProduto(CreateProdutoDto cpDto)
+    public async Task<ServiceResponse<List<Produto>>> CreateProduto(CreateProdutoDto createProdutoDto)
     {
         ServiceResponse<List<Produto>> response = new();
 
-        Produto produto = _context.Produtos.Include(x => x.Valor).FirstOrDefault(x => x.Valor.Id == cpDto.valorId);
-
-        string msg;
+        Produto produto = new Produto { Nome = createProdutoDto.Nome, Preco = createProdutoDto.Preco };
 
         try
         {
-            if (produto != null)
-            {
-                produto.Quantidade += cpDto.quantidade;
-                _context.Produtos.Update(produto);
-
-                msg = $"Ao produto de valor {produto.Valor.Preco}, foi adicionado {cpDto.quantidade} unidades!";
-            }
-            else
-            {
-                produto = new Produto
-                {
-                    Valor = _context.Valores.FirstOrDefault(x => x.Id == cpDto.valorId),
-                    Quantidade = cpDto.quantidade
-                };
-                _context.Produtos.Add(produto);
-
-                msg = $"Foi criado um novo produto de valor: {produto.Valor.Preco} com {cpDto.quantidade} unidades!";
-            }
-
             await _context.SaveChangesAsync();
             response.Objeto = _context.Produtos.ToList();
-            response.Mensagem = msg;
+            response.Mensagem = $"Produto {produto.Nome} criado com sucesso!";
         }
         catch (Exception e)
         {
@@ -106,11 +85,14 @@ public class ProdutoService : IProdutoInterface
 
         try
         {
+            if (produto.Vendido)
+                throw new Exception("Produto não pode ser apagado pois já foi vendido!");
+
             _context.Produtos.Remove(produto);
             await _context.SaveChangesAsync();
 
             response.Objeto = _context.Produtos.ToList();
-            response.Mensagem = $"Produto de id {id} e valor {produto.Valor} deletado com sucesso!";
+            response.Mensagem = $"Produto de id {id} e nome {produto.Nome}, deletado com sucesso!";
         }
         catch (Exception e)
         {

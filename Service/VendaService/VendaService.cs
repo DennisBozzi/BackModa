@@ -17,8 +17,7 @@ public class VendaService : IVendaInterface
     {
         _context = context;
     }
-
-
+    
     public async Task<ServiceResponse<List<Venda>>> GetVendas()
     {
         ServiceResponse<List<Venda>> response = new();

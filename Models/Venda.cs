@@ -7,5 +7,5 @@ public class Venda
 {
     [Key] public int Id { get; set; }
     public double ValorTotal { get; set; }
-    public DateTime Data { get; set; } = DateTime.Now;
+    public DateTime VendidoEm { get; set; } = DateTime.Now;
 }
