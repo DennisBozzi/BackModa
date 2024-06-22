@@ -2,6 +2,6 @@
 
 public class VendaDto
 {
-    public int Quantidade { get; set; }
-    public int ProdutoId { get; set; }
+    public List<int> Produtos { get; set; }
+    public double Desconto { get; set; } = 0;
 }

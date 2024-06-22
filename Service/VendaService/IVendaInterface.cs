@@ -7,5 +7,5 @@ public interface IVendaInterface
 {
     Task<ServiceResponse<List<Venda>>> GetVendas();
     Task<ServiceResponse<List<Venda>>> DeleteVenda(int id);
-    Task<ServiceResponse<List<Venda>>> EfetuarVenda(List<VendaDto> vendaDto);
+    Task<ServiceResponse<Venda>> EfetuarVenda(VendaDto vendaDto);
 }

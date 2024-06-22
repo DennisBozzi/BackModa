@@ -30,15 +30,25 @@ namespace Back.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Quantidade")
+                    b.Property<DateTime>("CriadoEm")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<double>("Preco")
+                        .HasColumnType("double precision");
+
+                    b.Property<int?>("VendaId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ValorId")
-                        .HasColumnType("integer");
+                    b.Property<bool>("Vendido")
+                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ValorId");
+                    b.HasIndex("VendaId");
 
                     b.ToTable("Produtos");
                 });
@@ -75,22 +85,6 @@ namespace Back.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Back.Models.Valor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<double>("Preco")
-                        .HasColumnType("double precision");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Valores");
-                });
-
             modelBuilder.Entity("Back.Models.Venda", b =>
                 {
                     b.Property<int>("Id")
@@ -99,71 +93,29 @@ namespace Back.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("Data")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<double>("ValorTotal")
                         .HasColumnType("double precision");
+
+                    b.Property<DateTime>("VendidoEm")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
                     b.ToTable("Vendas");
                 });
 
-            modelBuilder.Entity("Back.Models.VendaProduto", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ProdutoId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Quantidade")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("VendaId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProdutoId");
-
-                    b.HasIndex("VendaId");
-
-                    b.ToTable("VendaProdutos");
-                });
-
             modelBuilder.Entity("Back.Models.Produto", b =>
                 {
-                    b.HasOne("Back.Models.Valor", "Valor")
-                        .WithMany()
-                        .HasForeignKey("ValorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Valor");
-                });
-
-            modelBuilder.Entity("Back.Models.VendaProduto", b =>
-                {
-                    b.HasOne("Back.Models.Produto", "Produto")
-                        .WithMany()
-                        .HasForeignKey("ProdutoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Back.Models.Venda", "Venda")
-                        .WithMany()
-                        .HasForeignKey("VendaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Produto");
+                        .WithMany("Produtos")
+                        .HasForeignKey("VendaId");
 
                     b.Navigation("Venda");
+                });
+
+            modelBuilder.Entity("Back.Models.Venda", b =>
+                {
+                    b.Navigation("Produtos");
                 });
 #pragma warning restore 612, 618
         }

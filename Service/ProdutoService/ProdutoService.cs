@@ -21,7 +21,7 @@ public class ProdutoService : IProdutoInterface
 
         try
         {
-            response.Objeto = _context.Produtos.Include(x => x.Venda.Id).ToList();
+            response.Objeto = _context.Produtos.ToList();
             response.Mensagem = "Produtos retornados com sucesso!";
         }
         catch (Exception e)
@@ -37,7 +37,7 @@ public class ProdutoService : IProdutoInterface
     {
         ServiceResponse<Produto> response = new();
 
-        Produto produto = _context.Produtos.Include(x => x.Venda.Id).FirstOrDefault(x => x.Id == id);
+        Produto produto = _context.Produtos.FirstOrDefault(x => x.Id == id);
 
         try
         {
@@ -56,14 +56,33 @@ public class ProdutoService : IProdutoInterface
         return response;
     }
 
-    public async Task<ServiceResponse<List<Produto>>> CreateProduto(CreateProdutoDto createProdutoDto)
+    public async Task<ServiceResponse<List<Produto>>> GetProdutoNotVendido()
     {
         ServiceResponse<List<Produto>> response = new();
 
-        Produto produto = new Produto { Nome = createProdutoDto.Nome, Preco = createProdutoDto.Preco };
+        try
+        {
+            response.Objeto = _context.Produtos.Where(x => !x.Vendido).ToList();
+            response.Mensagem = "Produtos não vendidos, retornados com sucesso!";
+        }
+        catch (Exception e)
+        {
+            response.Mensagem = e.Message;
+            response.Successo = false;
+        }
+
+        return response;
+    }
+
+    public async Task<ServiceResponse<List<Produto>>> CreateProduto(ProdutoDto produtoDto)
+    {
+        ServiceResponse<List<Produto>> response = new();
+
+        Produto produto = new Produto { Nome = produtoDto.Nome, Preco = produtoDto.Preco};
 
         try
         {
+            _context.Produtos.Add(produto);
             await _context.SaveChangesAsync();
             response.Objeto = _context.Produtos.ToList();
             response.Mensagem = $"Produto {produto.Nome} criado com sucesso!";

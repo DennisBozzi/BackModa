@@ -18,8 +18,14 @@ public class VendaController : ControllerBase
         _vendaInterface = vendaInterface;
     }
 
+    [HttpGet]
+    public async Task<ServiceResponse<List<Venda>>> GetVendas()
+    {
+        return await _vendaInterface.GetVendas();
+    }
+    
     [HttpPost("EfetuarVenda")]
-    public async Task<ServiceResponse<List<Venda>>> EfetuarVenda(List<VendaDto> vendaDto)
+    public async Task<ServiceResponse<Venda>> EfetuarVenda(VendaDto vendaDto)
     {
         return await _vendaInterface.EfetuarVenda(vendaDto);
     }

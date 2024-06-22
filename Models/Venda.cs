@@ -6,6 +6,7 @@ namespace Back.Models;
 public class Venda
 {
     [Key] public int Id { get; set; }
-    public double ValorTotal { get; set; }
-    public DateTime VendidoEm { get; set; } = DateTime.Now;
+    public double ValorTotal { get; set; } = 0;
+    public DateTime VendidoEm { get; set; } = DateTime.Now.ToUniversalTime();
+    public ICollection<Produto> Produtos { get; set; } = new List<Produto>();
 }

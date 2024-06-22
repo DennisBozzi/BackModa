@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Back.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateDB : Migration
+    public partial class CreatingDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,27 +30,13 @@ namespace Back.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Valores",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Preco = table.Column<double>(type: "double precision", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Valores", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Vendas",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Produtos = table.Column<string>(type: "text", nullable: false),
                     ValorTotal = table.Column<double>(type: "double precision", nullable: false),
-                    Data = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    VendidoEm = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,24 +49,26 @@ namespace Back.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ValorId = table.Column<int>(type: "integer", nullable: false),
-                    Quantidade = table.Column<int>(type: "integer", nullable: false)
+                    Nome = table.Column<string>(type: "text", nullable: false),
+                    Preco = table.Column<double>(type: "double precision", nullable: false),
+                    VendaId = table.Column<int>(type: "integer", nullable: true),
+                    Vendido = table.Column<bool>(type: "boolean", nullable: false),
+                    CriadoEm = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Produtos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Produtos_Valores_ValorId",
-                        column: x => x.ValorId,
-                        principalTable: "Valores",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Produtos_Vendas_VendaId",
+                        column: x => x.VendaId,
+                        principalTable: "Vendas",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Produtos_ValorId",
+                name: "IX_Produtos_VendaId",
                 table: "Produtos",
-                column: "ValorId");
+                column: "VendaId");
         }
 
         /// <inheritdoc />
@@ -94,9 +82,6 @@ namespace Back.Migrations
 
             migrationBuilder.DropTable(
                 name: "Vendas");
-
-            migrationBuilder.DropTable(
-                name: "Valores");
         }
     }
 }

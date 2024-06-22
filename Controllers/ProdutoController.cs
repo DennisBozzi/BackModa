@@ -28,11 +28,17 @@ public class ProdutoController : ControllerBase
     {
         return await _produtoInterface.GetProdutoById(id);
     }
+    
+    [HttpGet("GetProdutoNotVendido")]
+    public async Task<ServiceResponse<List<Produto>>> GetProdutoNotVendido()
+    {
+        return await _produtoInterface.GetProdutoNotVendido();
+    }
 
     [HttpPost]
-    public async Task<ServiceResponse<List<Produto>>> CreateValor(CreateProdutoDto cpDto)
+    public async Task<ServiceResponse<List<Produto>>> CreateValor(ProdutoDto produtoDto)
     {
-        return await _produtoInterface.CreateProduto(cpDto);
+        return await _produtoInterface.CreateProduto(produtoDto);
     }
 
     [HttpDelete]
