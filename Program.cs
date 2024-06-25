@@ -27,7 +27,13 @@ builder.Services.AddHttpClient<string>(client =>
     client.BaseAddress = new Uri(builder.Configuration["Authentication:TokenUri"]);
 });
 
-// setx DB_CONNECTION_STRING "Host=dpg-cpie2icf7o1s73bg9pe0-a.oregon-postgres.render.com;Port=5432;Database=bozzi;Username=dennis;Password=Mzpa6b68TkB1Mp7dUQOuYSbc1KVtcEnF"
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ListenAnyIP(8080);
+    serverOptions.ListenAnyIP(8081);
+});
+
+// setx DB_CONNECTION_STRING ""
 
 var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
 builder.Services.AddDbContext<AppDbContext>(options =>
