@@ -37,14 +37,82 @@ public class VendaService : IVendaInterface
         return response;
     }
 
-    public Task<ServiceResponse<List<Venda>>> DeleteVenda(int id)
+    public async Task<ServiceResponse<Venda>> GetVendaById(int id)
     {
-        /*
-         TODO: Implementar método de deletar venda após editar todos os Produtos referenciadas.
-         TODO: Mudar status de vendido e remover a referencia de venda.
-         */
+        ServiceResponse<Venda> response = new();
 
-        throw new NotImplementedException();
+        try
+        {
+            response.Objeto = _context.Vendas.Include(x => x.Produtos).FirstOrDefault(x=> x.Id == id);
+            response.Mensagem = "Venda retornada com sucesso!";
+        }
+        catch (Exception e)
+        {
+            response.Mensagem = e.Message;
+            response.Successo = false;
+        }
+
+        return response;
+    }
+
+    public async Task<ServiceResponse<Venda>> DeleteVenda(int id)
+    {
+        ServiceResponse<Venda> response = new();
+
+        Venda venda = _context.Vendas.Include(x => x.Produtos).FirstOrDefault(x => x.Id == id);
+        List<Produto> produtos = venda.Produtos.ToList();
+
+        try
+        {
+            foreach (var produto in produtos)
+            {
+                produto.Vendido = false;
+                produto.Venda = null;
+            }
+
+            _context.Vendas.Remove(venda);
+            await _context.SaveChangesAsync();
+
+            response.Mensagem = "Venda deletada com sucesso!";
+            response.Objeto = venda;
+
+            return response;
+        }
+        catch (Exception e)
+        {
+            response.Mensagem = e.Message;
+            response.Successo = false;
+            return response;
+        }
+    }
+
+    public async Task<ServiceResponse<Venda>> DeleProdutoVenda(int idProduto)
+    {
+        ServiceResponse<Venda> response = new();
+        Produto produto = _context.Produtos.FirstOrDefault(x => x.Id == idProduto);
+        Venda venda = _context.Vendas.Include(x => x.Produtos).FirstOrDefault(x => x.Produtos.Contains(produto));
+
+        try
+        {
+            if (produto == null)
+                throw new Exception("Produto não encontrado.");
+            
+            venda.Produtos.Remove(produto);
+            venda.ValorTotal -= produto.Preco;
+
+            produto.Vendido = false;
+
+            await _context.SaveChangesAsync();
+            
+            response.Mensagem = $"Produto: {produto.Nome}, removido da venda com sucesso!";
+            return response;
+        }
+        catch (Exception e)
+        {
+            response.Mensagem = e.Message;
+            response.Successo = false;
+            return response;
+        }
     }
 
     public async Task<ServiceResponse<Venda>> EfetuarVenda(VendaDto vendaDto)
@@ -56,6 +124,7 @@ public class VendaService : IVendaInterface
         try
         {
             venda = _context.Vendas.Add(venda).Entity;
+            venda.Desconto = vendaDto.Desconto;
             await _context.SaveChangesAsync();
 
             foreach (var id in produtos)
@@ -69,7 +138,7 @@ public class VendaService : IVendaInterface
                 }
             }
 
-            venda.ValorTotal -= vendaDto.Desconto;
+            venda.ValorTotal -= venda.Desconto;
 
             if (produtos.Count == 0)
                 throw new Exception("Nenhum produto selecionado.");
@@ -82,8 +151,6 @@ public class VendaService : IVendaInterface
 
             response.Objeto = venda;
             response.Mensagem = $"Venda efetuada com sucesso!";
-
-            //TODO: Ajeitar a resposta para retornar bonito.
         }
         catch (Exception e)
         {

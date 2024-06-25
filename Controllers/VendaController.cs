@@ -24,9 +24,27 @@ public class VendaController : ControllerBase
         return await _vendaInterface.GetVendas();
     }
     
+    [HttpGet("{id}")]
+    public async Task<ServiceResponse<Venda>> GetVendaById(int id)
+    {
+        return await _vendaInterface.GetVendaById(id);
+    }
+    
+    
     [HttpPost("EfetuarVenda")]
     public async Task<ServiceResponse<Venda>> EfetuarVenda(VendaDto vendaDto)
     {
         return await _vendaInterface.EfetuarVenda(vendaDto);
+    }
+
+    [HttpDelete("DeleteProdutoVenda/{idProduto}")]
+    public async Task<ServiceResponse<Venda>> DeleteProdutoVenda(int idProduto){
+        return await _vendaInterface.DeleProdutoVenda(idProduto);
+    }
+    
+    [HttpDelete("{id}")]
+    public async Task<ServiceResponse<Venda>> DeleteVenda(int id)
+    {
+        return await _vendaInterface.DeleteVenda(id);
     }
 }

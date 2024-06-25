@@ -6,6 +6,8 @@ namespace Back.Service.VendaService;
 public interface IVendaInterface
 {
     Task<ServiceResponse<List<Venda>>> GetVendas();
-    Task<ServiceResponse<List<Venda>>> DeleteVenda(int id);
+    Task<ServiceResponse<Venda>> GetVendaById(int id);
+    Task<ServiceResponse<Venda>> DeleteVenda(int id);
+    Task<ServiceResponse<Venda>>DeleProdutoVenda(int idProduto);
     Task<ServiceResponse<Venda>> EfetuarVenda(VendaDto vendaDto);
 }

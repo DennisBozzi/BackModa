@@ -23,7 +23,7 @@ public class ProdutoController : ControllerBase
         return await _produtoInterface.GetProdutos();
     }
 
-    [HttpGet("GetProdutoById")]
+    [HttpGet("{id}")]
     public async Task<ServiceResponse<Produto>> GetProdutoById(int id)
     {
         return await _produtoInterface.GetProdutoById(id);
@@ -41,7 +41,7 @@ public class ProdutoController : ControllerBase
         return await _produtoInterface.CreateProduto(produtoDto);
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public async Task<ServiceResponse<List<Produto>>> DeleteProduto(int id)
     {
         return await _produtoInterface.DeleteProduto(id);

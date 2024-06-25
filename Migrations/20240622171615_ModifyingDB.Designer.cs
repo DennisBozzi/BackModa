@@ -3,6 +3,7 @@ using System;
 using Back.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Back.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240622171615_ModifyingDB")]
+    partial class ModifyingDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,7 +43,7 @@ namespace Back.Migrations
                     b.Property<double>("Preco")
                         .HasColumnType("double precision");
 
-                    b.Property<int?>("VendaId")
+                    b.Property<int>("VendaId")
                         .HasColumnType("integer");
 
                     b.Property<bool>("Vendido")
@@ -93,9 +96,6 @@ namespace Back.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<double>("Desconto")
-                        .HasColumnType("double precision");
-
                     b.Property<double>("ValorTotal")
                         .HasColumnType("double precision");
 
@@ -111,7 +111,9 @@ namespace Back.Migrations
                 {
                     b.HasOne("Back.Models.Venda", "Venda")
                         .WithMany("Produtos")
-                        .HasForeignKey("VendaId");
+                        .HasForeignKey("VendaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Venda");
                 });
