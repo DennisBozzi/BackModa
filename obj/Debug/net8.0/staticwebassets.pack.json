@@ -1,0 +1,25 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Moda\\Back\\wwwroot\\css\\swaggerDark.css",
+      "PackagePath": "staticwebassets\\css\\swaggerDark.css"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Back.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.Back.props",
+      "PackagePath": "build\\Back.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.Back.props",
+      "PackagePath": "buildMultiTargeting\\Back.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.Back.props",
+      "PackagePath": "buildTransitive\\Back.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

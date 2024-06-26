@@ -1,0 +1,1 @@
+{"ContentRoots":["/src/wwwroot"],"Root":{"Children":{"css":{"Children":{"swaggerDark.css":{"Children":null,"Asset":{"ContentRootIndex":0,"SubPath":"css/swaggerDark.css"},"Patterns":null}},"Asset":null,"Patterns":null}},"Asset":null,"Patterns":[{"ContentRootIndex":0,"Pattern":"**","Depth":0}]}}

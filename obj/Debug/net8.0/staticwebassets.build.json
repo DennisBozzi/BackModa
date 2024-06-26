@@ -1,11 +1,39 @@
 {
   "Version": 1,
-  "Hash": "16C2HY4C1Bj8vEjL85iH5l4E+BWMpSinL1VS0cWjVG8=",
+  "Hash": "IorElB1x+3JZA43elqzoKRPifEFOwwMAulxFCJGeRk4=",
   "Source": "Back",
   "BasePath": "_content/Back",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "Back\\wwwroot",
+      "Source": "Back",
+      "ContentRoot": "C:\\Moda\\Back\\wwwroot\\",
+      "BasePath": "_content/Back",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Moda\\Back\\wwwroot\\css\\swaggerDark.css",
+      "SourceId": "Back",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Moda\\Back\\wwwroot\\",
+      "BasePath": "_content/Back",
+      "RelativePath": "css/swaggerDark.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\swaggerDark.css"
+    }
+  ]
 }

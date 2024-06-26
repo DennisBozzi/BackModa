@@ -20,4 +20,5 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 COPY ["Properties/firebase.json", "/app/properties/firebase.json"]
+COPY ["wwwroot/css/swaggerDark.css", "wwwroot/css/swaggerDark.css"]
 ENTRYPOINT ["dotnet", "Back.dll"]

@@ -1,3 +1,4 @@
+using System.Reflection;
 using Back.Service.UserService;
 using FirebaseAdmin;
 using System.Text;
@@ -77,8 +78,15 @@ using (var scope = app.Services.CreateScope())
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(x =>
+    {
+        x.SwaggerEndpoint("/swagger/v1/swagger.json", "Versão 1.0");
+        x.InjectStylesheet("/css/swaggerDark.css");
+        x.RoutePrefix = string.Empty;
+    });
 }
+
+app.UseStaticFiles();
 
 app.UseCors("AllowAllOrigins");
 

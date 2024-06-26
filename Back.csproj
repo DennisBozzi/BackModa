@@ -34,7 +34,7 @@
 
   <ItemGroup>
     <None Remove="Back.http" />
-    <None Remove="Service\UserService\**" />
+    <None Remove="Assets\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,14 +42,19 @@
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </Content>
     <Content Remove="Service\UserService\**" />
+    <Content Update="Assets\swaggerDark.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Remove="Assets\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Service\UserService\**" />
+    <Compile Remove="Assets\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Remove="Service\UserService\**" />
+    <EmbeddedResource Remove="Assets\**" />
   </ItemGroup>
 
 </Project>
