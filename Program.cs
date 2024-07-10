@@ -16,7 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 FirebaseApp.Create(new AppOptions
 {
-    Credential = GoogleCredential.FromFile("properties/firebase.json")
+    Credential = GoogleCredential.FromJson(Environment.GetEnvironmentVariable("FIREBASE_CREDENTIALS"))
 });
 
 builder.Services.AddScoped<IAuthInterface, AuthService>();
