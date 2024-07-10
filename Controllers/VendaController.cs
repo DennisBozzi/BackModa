@@ -37,7 +37,7 @@ public class VendaController : ControllerBase
         return await _vendaInterface.EfetuarVenda(vendaDto);
     }
 
-    [HttpDelete("DeleteProdutoVenda/{idProduto}")]
+    [HttpPut("{idProduto}")]
     public async Task<ServiceResponse<Venda>> DeleteProdutoVenda(int idProduto){
         return await _vendaInterface.DeleProdutoVenda(idProduto);
     }

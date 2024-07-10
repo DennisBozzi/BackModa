@@ -28,13 +28,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Enums\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Back.http" />
     <None Remove="Assets\**" />
+    <None Remove="Enums\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,14 +47,17 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Remove="Assets\**" />
+    <Content Remove="Enums\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Assets\**" />
+    <Compile Remove="Enums\**" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Remove="Assets\**" />
+    <EmbeddedResource Remove="Enums\**" />
   </ItemGroup>
 
 </Project>
