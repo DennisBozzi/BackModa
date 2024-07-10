@@ -3790,22 +3790,23 @@
   },
   "packageFolders": {
     "C:\\Users\\denno\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Moda\\Back\\Back.csproj",
+      "projectUniqueName": "C:\\Projetos\\Moda\\Back\\Back.csproj",
       "projectName": "Back",
-      "projectPath": "C:\\Moda\\Back\\Back.csproj",
+      "projectPath": "C:\\Projetos\\Moda\\Back\\Back.csproj",
       "packagesPath": "C:\\Users\\denno\\.nuget\\packages\\",
-      "outputPath": "C:\\Moda\\Back\\obj\\",
+      "outputPath": "C:\\Projetos\\Moda\\Back\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
         "C:\\Users\\denno\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -3826,6 +3827,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {

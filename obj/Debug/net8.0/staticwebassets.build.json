@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "IorElB1x+3JZA43elqzoKRPifEFOwwMAulxFCJGeRk4=",
+  "Hash": "XaE9EXg6ixh06q9Og2wWhlA1InR4+vbXpT2HtOYXmPg=",
   "Source": "Back",
   "BasePath": "_content/Back",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "Back\\wwwroot",
       "Source": "Back",
-      "ContentRoot": "C:\\Moda\\Back\\wwwroot\\",
+      "ContentRoot": "C:\\Projetos\\Moda\\Back\\wwwroot\\",
       "BasePath": "_content/Back",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Moda\\Back\\wwwroot\\css\\swaggerDark.css",
+      "Identity": "C:\\Projetos\\Moda\\Back\\wwwroot\\css\\swaggerDark.css",
       "SourceId": "Back",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Moda\\Back\\wwwroot\\",
+      "ContentRoot": "C:\\Projetos\\Moda\\Back\\wwwroot\\",
       "BasePath": "_content/Back",
       "RelativePath": "css/swaggerDark.css",
       "AssetKind": "All",

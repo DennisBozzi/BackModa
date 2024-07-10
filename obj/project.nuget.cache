@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "uD0cVoup8BJqURIgv/6+N+Z5Nf2g5FFUjpmCmv516IhLRCxPyHpuLZZb6OOX9Ps/7yk9uTdZCWdmpunFBB9Qwg==",
+  "dgSpecHash": "sa56vPUcm9w=",
   "success": true,
-  "projectFilePath": "C:\\Moda\\Back\\Back.csproj",
+  "projectFilePath": "C:\\Projetos\\Moda\\Back\\Back.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\denno\\.nuget\\packages\\firebaseadmin\\3.0.0\\firebaseadmin.3.0.0.nupkg.sha512",
     "C:\\Users\\denno\\.nuget\\packages\\google.api.gax\\4.8.0\\google.api.gax.4.8.0.nupkg.sha512",

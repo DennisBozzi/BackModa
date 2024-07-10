@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Back.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240622171904_ModifyingDB2")]
-    partial class ModifyingDB2
+    [Migration("20240709152808_createDb")]
+    partial class createDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,7 +85,7 @@ namespace Back.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Usuarios");
                 });
 
             modelBuilder.Entity("Back.Models.Venda", b =>
@@ -95,6 +95,9 @@ namespace Back.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("Desconto")
+                        .HasColumnType("double precision");
 
                     b.Property<double>("ValorTotal")
                         .HasColumnType("double precision");
