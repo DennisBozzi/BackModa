@@ -6,8 +6,6 @@ on:
 
 env:
   IMAGE_NAME: dennisbozzi/backmoda
-  ASPNETCORE_ENVIRONMENT: ${{ secrets.ASPNETCORE_ENVIRONMENT }}
-  DB_CONNECTION_STRING: ${{ secrets.DB_CONNECTION_STRING }}
   
 jobs:
   build-and-push:
