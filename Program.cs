@@ -14,19 +14,22 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+var firebaseValidIssuer = Environment.GetEnvironmentVariable("FIREBASE_VALID_ISSUER");
+var firebaseAudience = Environment.GetEnvironmentVariable("FIREBASE_AUDIENCE");
+var firebaseTokenUri = Environment.GetEnvironmentVariable("FIREBASE_TOKEN_URI");
+var firebaseCredentials = Environment.GetEnvironmentVariable("FIREBASE_CREDENTIALS");
+
 FirebaseApp.Create(new AppOptions
 {
-    Credential = GoogleCredential.FromJson(Environment.GetEnvironmentVariable("FIREBASE_CREDENTIALS"))
+    Credential = GoogleCredential.FromJson(firebaseCredentials)
 });
 
 builder.Services.AddScoped<IAuthInterface, AuthService>();
 builder.Services.AddScoped<IProdutoInterface, ProdutoService>();
 builder.Services.AddScoped<IVendaInterface, VendaService>();
 
-builder.Services.AddHttpClient<string>(client =>
-{
-    client.BaseAddress = new Uri(builder.Configuration["Authentication:TokenUri"]);
-});
+builder.Services.AddHttpClient<string>(client => { client.BaseAddress = new Uri(firebaseTokenUri); });
 
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
@@ -45,17 +48,16 @@ builder.Services.AddCors(options =>
         });
 });
 
-var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
 
 builder.Services.AddAuthentication().AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
 {
-    options.Authority = builder.Configuration["Authentication:ValidIssuer"];
+    options.Authority = firebaseValidIssuer;
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidIssuer = builder.Configuration["Authentication:ValidIssuer"],
-        ValidAudience = builder.Configuration["Authentication:Audience"],
+        ValidIssuer = firebaseValidIssuer,
+        ValidAudience = firebaseAudience,
     };
 });
 

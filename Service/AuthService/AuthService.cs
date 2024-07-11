@@ -36,7 +36,7 @@ public class AuthService : IAuthInterface
             returnSecureToken = true
         };
 
-        var tokenUri = _configuration["Authentication:TokenUri"];
+        var tokenUri = Environment.GetEnvironmentVariable("FIREBASE_TOKEN_URI");
 
         HttpResponseMessage response;
         try
