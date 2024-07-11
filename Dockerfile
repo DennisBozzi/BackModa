@@ -19,6 +19,5 @@ RUN dotnet publish "./Back.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:Us
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-COPY ["Properties/firebase.json", "/app/properties/firebase.json"]
 COPY ["wwwroot/css/swaggerDark.css", "wwwroot/css/swaggerDark.css"]
 ENTRYPOINT ["dotnet", "Back.dll"]
