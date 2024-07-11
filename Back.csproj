@@ -38,9 +38,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Properties\firebase.json">
-      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
-    </Content>
     <Content Remove="Service\UserService\**" />
     <Content Update="Assets\swaggerDark.css">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
