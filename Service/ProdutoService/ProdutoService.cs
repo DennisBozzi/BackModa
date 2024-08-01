@@ -21,7 +21,7 @@ public class ProdutoService : IProdutoInterface
 
         try
         {
-            response.Objeto = _context.Produtos.ToList();
+            response.Objeto = _context.Produtos.OrderBy(x => x.Id).ToList();
             response.Mensagem = "Produtos retornados com sucesso!";
         }
         catch (Exception e)
@@ -84,7 +84,7 @@ public class ProdutoService : IProdutoInterface
         {
             _context.Produtos.Add(produto);
             await _context.SaveChangesAsync();
-            response.Objeto = _context.Produtos.ToList();
+            response.Objeto = _context.Produtos.OrderBy(x => x.Id).ToList();
             response.Mensagem = $"Produto {produto.Nome} criado com sucesso!";
         }
         catch (Exception e)
@@ -110,7 +110,7 @@ public class ProdutoService : IProdutoInterface
             _context.Produtos.Remove(produto);
             await _context.SaveChangesAsync();
 
-            response.Objeto = _context.Produtos.ToList();
+            response.Objeto = _context.Produtos.OrderBy(x => x.Id).ToList();
             response.Mensagem = $"Produto de id {id} e nome {produto.Nome}, deletado com sucesso!";
         }
         catch (Exception e)
