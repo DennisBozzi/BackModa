@@ -1,6 +1,7 @@
 ﻿using Back.Models;
 using Back.Models.Dto;
 using Back.Service.UserService;
+using FirebaseAdmin.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,11 +23,18 @@ public class AuthController : ControllerBase
     {
         return await _authInterface.RegisterAsync(esDto.email, esDto.password);
     }
-    
+
     [HttpPost("Login")]
     public async Task<string> Login(EmailPasswordDto esDto)
     {
         return await _authInterface.LoginAsync(esDto.email, esDto.password);
+    }
+
+    [Authorize]
+    [HttpPost("GetUser")]
+    public async Task<UserRecord> GetUserAsync(string uid)
+    {
+        return await _authInterface.GetUserAsync(uid);
     }
 
     [Authorize]
