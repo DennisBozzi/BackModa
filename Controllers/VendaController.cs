@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Back.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class VendaController : ControllerBase

@@ -56,7 +56,7 @@ public class ProdutoService : IProdutoInterface
         return response;
     }
 
-    public async Task<ServiceResponse<List<Produto>>> GetProdutoNotVendido()
+    public async Task<ServiceResponse<List<Produto>>> GetProdutoNaoVendido()
     {
         ServiceResponse<List<Produto>> response = new();
 
@@ -78,7 +78,7 @@ public class ProdutoService : IProdutoInterface
     {
         ServiceResponse<List<Produto>> response = new();
 
-        Produto produto = new Produto { Nome = produtoDto.Nome, Preco = produtoDto.Preco};
+        Produto produto = new Produto { Nome = produtoDto.Nome, Preco = produtoDto.Preco };
 
         try
         {
@@ -112,6 +112,31 @@ public class ProdutoService : IProdutoInterface
 
             response.Objeto = _context.Produtos.OrderBy(x => x.Id).ToList();
             response.Mensagem = $"Produto de id {id} e nome {produto.Nome}, deletado com sucesso!";
+        }
+        catch (Exception e)
+        {
+            response.Mensagem = e.Message;
+            response.Successo = false;
+        }
+
+        return response;
+    }
+
+    public async Task<ServiceResponse<List<Produto>>> UpdateProduto(ProdutoDto produto)
+    {
+        ServiceResponse<List<Produto>> response = new();
+
+        try
+        {
+            var prod = _context.Produtos.FirstOrDefault(x => x.Id == produto.Id);
+            prod.Nome = produto.Nome ?? prod.Nome;
+            prod.Preco = produto.Preco == 0 ? prod.Preco : produto.Preco;
+
+            _context.Produtos.Update(prod);
+            _context.SaveChanges();
+
+            response.Objeto = _context.Produtos.OrderBy(x => x.Id).ToList();
+            response.Mensagem = $"Produto de id {produto.Id} e nome {produto.Nome}, atualizado com sucesso!";
         }
         catch (Exception e)
         {

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Back.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class ProdutoController : ControllerBase
@@ -28,11 +29,17 @@ public class ProdutoController : ControllerBase
     {
         return await _produtoInterface.GetProdutoById(id);
     }
-    
-    [HttpGet("GetProdutoNotVendido")]
-    public async Task<ServiceResponse<List<Produto>>> GetProdutoNotVendido()
+
+    [HttpGet("GetProdutoNaoVendido")]
+    public async Task<ServiceResponse<List<Produto>>> GetProdutoNaoVendido()
     {
-        return await _produtoInterface.GetProdutoNotVendido();
+        return await _produtoInterface.GetProdutoNaoVendido();
+    }
+
+    [HttpPut]
+    public async Task<ServiceResponse<List<Produto>>> UpdateProduto(ProdutoDto produto)
+    {
+        return await _produtoInterface.UpdateProduto(produto);
     }
 
     [HttpPost]

@@ -22,7 +22,7 @@ public class AuthController : ControllerBase
     {
         return await _authInterface.RegisterAsync(esDto.email, esDto.password);
     }
-
+    
     [HttpPost("Login")]
     public async Task<string> Login(EmailPasswordDto esDto)
     {
