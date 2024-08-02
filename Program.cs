@@ -30,7 +30,7 @@ builder.Services.AddScoped<IAuthInterface, AuthService>();
 builder.Services.AddScoped<IProdutoInterface, ProdutoService>();
 builder.Services.AddScoped<IVendaInterface, VendaService>();
 
-builder.Services.AddHttpClient<string>(client => { client.BaseAddress = new Uri(firebaseTokenUri); });
+builder.Services.AddHttpClient<string>();
 
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {

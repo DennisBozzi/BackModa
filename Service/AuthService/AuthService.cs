@@ -39,28 +39,17 @@ public class AuthService : IAuthInterface
         var tokenUri = Environment.GetEnvironmentVariable("FIREBASE_TOKEN_URI");
 
         HttpResponseMessage response;
-        try
-        {
-            response = await _httpClient.PostAsJsonAsync(tokenUri, requestPayload);
-        }
-        catch (HttpRequestException e)
-        {
-            throw new Exception("An error occurred while sending the request to Firebase Auth.", e);
-        }
-        
-        var responseContent = await response.Content.ReadFromJsonAsync<FirebaseAuthResponse>();
-        
+
+        response = await _httpClient.PostAsJsonAsync(tokenUri, requestPayload);
+
+        var responseContent = await response.Content.ReadFromJsonAsync<FirebaseUser>();
+
         return responseContent.idToken;
     }
 
-    public class FirebaseAuthResponse
+    public async Task<UserRecord> GetUserAsync(string uid)
     {
-        public string localId { get; set; }
-        public string email { get; set; }
-        public string displayName { get; set; }
-        public string idToken { get; set; }
-        public bool registered { get; set; }
-        public string refreshToken { get; set; }
-        public string expiresIn { get; set; }
+        var userRecord = await FirebaseAuth.DefaultInstance.GetUserAsync(uid);
+        return userRecord;
     }
 }
