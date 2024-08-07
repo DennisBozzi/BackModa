@@ -1,4 +1,4 @@
-﻿using Back.Context;
+using Back.Context;
 using Back.Enum;
 using Back.Models;
 using Back.Models.Dto;
@@ -35,7 +35,6 @@ public class ProdutoService : IProdutoInterface
             pagination.PageNumber = filtro.PageNumber;
             pagination.PageSize = filtro.PageSize;
             pagination.Formater();
-
             response.Objeto = pagination;
             response.Mensagem = "Produtos retornados com sucesso!";
         }
