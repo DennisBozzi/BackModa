@@ -1,7 +1,7 @@
 ﻿using Back.Models;
 using Back.Models.Dto;
-using Back.Service.ProdutoService;
-using Back.Service.VendaService;
+using Back.Services.ProdutoService;
+using Back.Services.VendaService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,18 +20,18 @@ public class VendaController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ServiceResponse<List<Venda>>> GetVendas()
+    public async Task<ServiceResponse<PaginationHelper<Venda>>> GetVendas(int pageNumber, int pageSize)
     {
-        return await _vendaInterface.GetVendas();
+        return await _vendaInterface.GetVendas(pageNumber, pageSize);
     }
-    
+
     [HttpGet("{id}")]
     public async Task<ServiceResponse<Venda>> GetVendaById(int id)
     {
         return await _vendaInterface.GetVendaById(id);
     }
-    
-    
+
+
     [HttpPost("EfetuarVenda")]
     public async Task<ServiceResponse<Venda>> EfetuarVenda(VendaDto vendaDto)
     {
@@ -39,10 +39,11 @@ public class VendaController : ControllerBase
     }
 
     [HttpPut("{idProduto}")]
-    public async Task<ServiceResponse<Venda>> DeleteProdutoVenda(int idProduto){
+    public async Task<ServiceResponse<Venda>> DeleteProdutoVenda(int idProduto)
+    {
         return await _vendaInterface.DeleProdutoVenda(idProduto);
     }
-    
+
     [HttpDelete("{id}")]
     public async Task<ServiceResponse<Venda>> DeleteVenda(int id)
     {

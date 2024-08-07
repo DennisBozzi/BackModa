@@ -1,6 +1,6 @@
 ﻿using Back.Models;
 using Back.Models.Dto;
-using Back.Service.UserService;
+using Back.Services.AuthService;
 using FirebaseAdmin.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

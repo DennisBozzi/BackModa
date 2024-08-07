@@ -4,7 +4,7 @@ using Back.Models.Dto;
 using FirebaseAdmin.Auth;
 using Microsoft.EntityFrameworkCore;
 
-namespace Back.Service.ProdutoService;
+namespace Back.Services.ProdutoService;
 
 public class ProdutoService : IProdutoInterface
 {
@@ -15,13 +15,19 @@ public class ProdutoService : IProdutoInterface
         _context = context;
     }
 
-    public async Task<ServiceResponse<List<Produto>>> GetProdutos()
+    public async Task<ServiceResponse<PaginationHelper<Produto>>> GetProdutos(int pageNumber, int pageSize)
     {
-        ServiceResponse<List<Produto>> response = new();
+        ServiceResponse<PaginationHelper<Produto>> response = new();
+        PaginationHelper<Produto> pagination = new();
 
         try
         {
-            response.Objeto = _context.Produtos.OrderBy(x => x.Id).ToList();
+            pagination.Data = _context.Produtos.OrderBy(x => x.Id).ToList();
+            pagination.PageNumber = pageNumber;
+            pagination.PageSize = pageSize;
+            pagination.Formater();
+            
+            response.Objeto = pagination;
             response.Mensagem = "Produtos retornados com sucesso!";
         }
         catch (Exception e)
