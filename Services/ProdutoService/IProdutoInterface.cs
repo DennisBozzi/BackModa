@@ -5,7 +5,7 @@ namespace Back.Services.ProdutoService;
 
 public interface IProdutoInterface
 {
-    Task<ServiceResponse<PaginationHelper<Produto>>> GetProdutos(int pageNumber, int pageSize);
+    Task<ServiceResponse<PaginationHelper<Produto>>> GetProdutos(ProdutoFiltro filtro);
     Task<ServiceResponse<Produto>> GetProdutoById(int id);
     Task<ServiceResponse<List<Produto>>> GetProdutoNaoVendido();
     Task<ServiceResponse<List<Produto>>> CreateProduto(ProdutoDto produtoDto);

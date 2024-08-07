@@ -1,4 +1,5 @@
 ﻿using Back.Context;
+using Back.Enum;
 using Back.Models;
 using Back.Models.Dto;
 using FirebaseAdmin.Auth;
@@ -15,18 +16,26 @@ public class ProdutoService : IProdutoInterface
         _context = context;
     }
 
-    public async Task<ServiceResponse<PaginationHelper<Produto>>> GetProdutos(int pageNumber, int pageSize)
+    public async Task<ServiceResponse<PaginationHelper<Produto>>> GetProdutos(ProdutoFiltro filtro)
     {
         ServiceResponse<PaginationHelper<Produto>> response = new();
         PaginationHelper<Produto> pagination = new();
+        IQueryable<Produto> data;
+        var isVendido = filtro.TipoProduto == TipoProduto.Vendidos ? true : false;
 
         try
         {
-            pagination.Data = _context.Produtos.OrderBy(x => x.Id).ToList();
-            pagination.PageNumber = pageNumber;
-            pagination.PageSize = pageSize;
+            data = _context.Produtos.OrderBy(x => x.Id);
+            if (filtro.TipoProduto != TipoProduto.Todos)
+                data = data.Where(x => x.Vendido == isVendido).OrderBy(x => x.Id);
+            if (filtro.Nome != null)
+                data = data.Where(x => x.Nome.Contains(filtro.Nome)).OrderBy(x => x.Id);
+
+            pagination.Data = data.ToList();
+            pagination.PageNumber = filtro.PageNumber;
+            pagination.PageSize = filtro.PageSize;
             pagination.Formater();
-            
+
             response.Objeto = pagination;
             response.Mensagem = "Produtos retornados com sucesso!";
         }

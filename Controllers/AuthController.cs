@@ -38,8 +38,8 @@ public class AuthController : ControllerBase
     }
 
     [Authorize]
-    [HttpGet("Teste")]
-    public async Task<bool> Teste()
+    [HttpGet("CheckToken")]
+    public async Task<bool> CheckToken()
     {
         return true;
     }
