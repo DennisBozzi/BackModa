@@ -1,7 +1,7 @@
 ﻿using Back.Models;
 using FirebaseAdmin.Auth;
 
-namespace Back.Service.UserService;
+namespace Back.Services.AuthService;
 
 public class AuthService : IAuthInterface
 {

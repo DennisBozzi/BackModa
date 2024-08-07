@@ -1,11 +1,11 @@
 ﻿using Back.Context;
 using Back.Models;
 using Back.Models.Dto;
-using Back.Service.VendaService;
+using Back.Services.VendaService;
 using FirebaseAdmin.Auth;
 using Microsoft.EntityFrameworkCore;
 
-namespace Back.Service.ProdutoService;
+namespace Back.Services.ProdutoService;
 
 public class VendaService : IVendaInterface
 {
@@ -19,13 +19,19 @@ public class VendaService : IVendaInterface
         _context = context;
     }
 
-    public async Task<ServiceResponse<List<Venda>>> GetVendas()
+    public async Task<ServiceResponse<PaginationHelper<Venda>>> GetVendas(int pageNumber, int pageSize)
     {
-        ServiceResponse<List<Venda>> response = new();
+        ServiceResponse<PaginationHelper<Venda>> response = new();
+        PaginationHelper<Venda> pagination = new();
 
         try
         {
-            response.Objeto = _context.Vendas.Include(x => x.Produtos).ToList();
+            pagination.Data = _context.Vendas.Include(x => x.Produtos).ToList();
+            pagination.PageNumber = pageNumber;
+            pagination.PageSize = pageSize;
+            pagination.Formater();
+                
+            response.Objeto = pagination;
             response.Mensagem = "Vendas retornadas com sucesso!";
         }
         catch (Exception e)
@@ -43,7 +49,7 @@ public class VendaService : IVendaInterface
 
         try
         {
-            response.Objeto = _context.Vendas.Include(x => x.Produtos).FirstOrDefault(x=> x.Id == id);
+            response.Objeto = _context.Vendas.Include(x => x.Produtos).FirstOrDefault(x => x.Id == id);
             response.Mensagem = "Venda retornada com sucesso!";
         }
         catch (Exception e)
@@ -96,14 +102,14 @@ public class VendaService : IVendaInterface
         {
             if (produto == null)
                 throw new Exception("Produto não encontrado.");
-            
+
             venda.Produtos.Remove(produto);
             venda.ValorTotal -= produto.Preco;
 
             produto.Vendido = false;
 
             await _context.SaveChangesAsync();
-            
+
             response.Mensagem = $"Produto: {produto.Nome}, removido da venda com sucesso!";
             return response;
         }

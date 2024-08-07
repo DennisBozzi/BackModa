@@ -1,11 +1,11 @@
 ﻿using Back.Models;
 using Back.Models.Dto;
 
-namespace Back.Service.VendaService;
+namespace Back.Services.VendaService;
 
 public interface IVendaInterface
 {
-    Task<ServiceResponse<List<Venda>>> GetVendas();
+    Task<ServiceResponse<PaginationHelper<Venda>>> GetVendas(int pageNumber, int pageSize);
     Task<ServiceResponse<Venda>> GetVendaById(int id);
     Task<ServiceResponse<Venda>> DeleteVenda(int id);
     Task<ServiceResponse<Venda>>DeleProdutoVenda(int idProduto);

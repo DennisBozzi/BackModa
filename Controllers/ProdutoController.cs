@@ -1,6 +1,6 @@
 ﻿using Back.Models;
 using Back.Models.Dto;
-using Back.Service.ProdutoService;
+using Back.Services.ProdutoService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,9 +19,9 @@ public class ProdutoController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ServiceResponse<List<Produto>>> GetValor()
+    public async Task<ServiceResponse<PaginationHelper<Produto>>> GetValor(int pageNumber, int pageSize)
     {
-        return await _produtoInterface.GetProdutos();
+        return await _produtoInterface.GetProdutos(pageNumber, pageSize);
     }
 
     [HttpGet("{id}")]

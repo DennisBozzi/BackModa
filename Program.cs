@@ -1,11 +1,11 @@
 using System.Reflection;
-using Back.Service.UserService;
+using Back.Services.AuthService;
 using FirebaseAdmin;
 using System.Text;
 using Back.Context;
 using Back.Models;
-using Back.Service.ProdutoService;
-using Back.Service.VendaService;
+using Back.Services.ProdutoService;
+using Back.Services.VendaService;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
