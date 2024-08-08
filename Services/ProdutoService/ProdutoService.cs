@@ -88,18 +88,20 @@ public class ProdutoService : IProdutoInterface
         return response;
     }
 
-    public async Task<ServiceResponse<List<Produto>>> CreateProduto(ProdutoDto produtoDto)
+    public async Task<ServiceResponse<List<Produto>>> CreateProduto(ProdutoDto produto)
     {
         ServiceResponse<List<Produto>> response = new();
 
-        Produto produto = new Produto { Nome = produtoDto.Nome, Preco = produtoDto.Preco };
-
         try
         {
-            _context.Produtos.Add(produto);
+            Validar(produto);
+            
+            Produto novoProduto = new Produto { Nome = produto.Nome, Preco = produto.Preco };
+            
+            _context.Produtos.Add(novoProduto);
             await _context.SaveChangesAsync();
             response.Objeto = _context.Produtos.OrderBy(x => x.Id).ToList();
-            response.Mensagem = $"Produto {produto.Nome} criado com sucesso!";
+            response.Mensagem = $"Produto {novoProduto.Nome} criado com sucesso!";
         }
         catch (Exception e)
         {
@@ -143,8 +145,11 @@ public class ProdutoService : IProdutoInterface
         try
         {
             var prod = _context.Produtos.FirstOrDefault(x => x.Id == produto.Id);
-            prod.Nome = produto.Nome ?? prod.Nome;
-            prod.Preco = produto.Preco == 0 ? prod.Preco : produto.Preco;
+            
+            Validar(produto);
+            
+            prod.Nome = produto.Nome;
+            prod.Preco = produto.Preco;
 
             _context.Produtos.Update(prod);
             _context.SaveChanges();
@@ -159,5 +164,18 @@ public class ProdutoService : IProdutoInterface
         }
 
         return response;
+    }
+
+    private void Validar(ProdutoDto produto)
+    {
+        if (produto.Nome == "" || produto.Nome == null)
+        {
+            throw new Exception("Nome do produto é obrigatório!");
+        }
+
+        if (produto.Preco == 0 || produto.Preco == null)
+        {
+            throw new Exception("Preço do produto é obrigatório!");
+        }
     }
 }
