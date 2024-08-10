@@ -14,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+Console.OutputEncoding = Encoding.UTF8;
 
 var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
 var firebaseValidIssuer = Environment.GetEnvironmentVariable("FIREBASE_VALID_ISSUER");
