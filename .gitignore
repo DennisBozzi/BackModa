@@ -1,3 +1,4 @@
 ﻿# Ignorar as pastas bin e obj
 **/bin/
 **/obj/
+.env

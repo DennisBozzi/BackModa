@@ -1,19 +1,18 @@
-using System.Reflection;
 using Back.Services.AuthService;
 using FirebaseAdmin;
-using System.Text;
 using Back.Context;
-using Back.Models;
 using Back.Services.ProdutoService;
 using Back.Services.VendaService;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using DotNetEnv;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Env.Load();
 
 var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
 var firebaseValidIssuer = Environment.GetEnvironmentVariable("FIREBASE_VALID_ISSUER");

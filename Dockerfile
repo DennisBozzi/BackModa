@@ -3,6 +3,8 @@ WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
+ENV ASPNETCORE_ENVIRONMENT=Development
+
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
@@ -20,4 +22,7 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 COPY ["wwwroot/css/swaggerDark.css", "wwwroot/css/swaggerDark.css"]
+
+RUN if [ -f .env ]; then cp .env /app/.env; fi
+
 ENTRYPOINT ["dotnet", "Back.dll"]
