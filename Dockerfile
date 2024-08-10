@@ -20,4 +20,7 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 COPY ["wwwroot/css/swaggerDark.css", "wwwroot/css/swaggerDark.css"]
+
+RUN if [ -f .env ]; then cp .env /app/.env; fi
+
 ENTRYPOINT ["dotnet", "Back.dll"]
