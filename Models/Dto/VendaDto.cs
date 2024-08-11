@@ -3,5 +3,5 @@
 public class VendaDto
 {
     public List<int> Produtos { get; set; }
-    public double Desconto { get; set; } = 0;
+    public double? Desconto { get; set; } = 0;
 }

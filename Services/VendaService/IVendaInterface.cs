@@ -8,6 +8,6 @@ public interface IVendaInterface
     Task<ServiceResponse<PaginationHelper<Venda>>> GetVendas(int pageNumber, int pageSize);
     Task<ServiceResponse<Venda>> GetVendaById(int id);
     Task<ServiceResponse<Venda>> DeleteVenda(int id);
-    Task<ServiceResponse<Venda>>DeleProdutoVenda(int idProduto);
+    Task<ServiceResponse<Venda>>DeleteProdutoVenda(int idProduto);
     Task<ServiceResponse<Venda>> EfetuarVenda(VendaDto vendaDto);
 }

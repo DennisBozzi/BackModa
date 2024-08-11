@@ -7,5 +7,5 @@ public class ProdutoFiltro
     public int PageNumber { get; set; }
     public int PageSize { get; set; }
     public string? Nome { get; set; }
-    public TipoProduto TipoProduto { get; set; }
+    public TipoProduto? TipoProduto { get; set; }
 }

@@ -34,25 +34,25 @@ public class ProdutoController : ControllerBase
     }
 
     [HttpGet("GetProdutoNaoVendido")]
-    public async Task<ServiceResponse<List<Produto>>> GetProdutoNaoVendido()
+    public async Task<ServiceResponse<List<Produto>>> GetProdutosNaoVendido()
     {
-        return await _produtoInterface.GetProdutoNaoVendido();
+        return await _produtoInterface.GetProdutosNaoVendido();
     }
 
     [HttpPut]
-    public async Task<ServiceResponse<List<Produto>>> UpdateProduto(ProdutoDto produto)
+    public async Task<ServiceResponse<Produto>> UpdateProduto(ProdutoDto produto)
     {
         return await _produtoInterface.UpdateProduto(produto);
     }
 
     [HttpPost]
-    public async Task<ServiceResponse<List<Produto>>> CreateValor(ProdutoDto produtoDto)
+    public async Task<ServiceResponse<Produto>> CreateValor(ProdutoDto produtoDto)
     {
         return await _produtoInterface.CreateProduto(produtoDto);
     }
 
     [HttpDelete("{id}")]
-    public async Task<ServiceResponse<List<Produto>>> DeleteProduto(int id)
+    public async Task<ServiceResponse<Produto>> DeleteProduto(int id)
     {
         return await _produtoInterface.DeleteProduto(id);
     }

@@ -21,17 +21,19 @@ public class ProdutoService : IProdutoInterface
         ServiceResponse<PaginationHelper<Produto>> response = new();
         PaginationHelper<Produto> pagination = new();
         IQueryable<Produto> data;
-        var isVendido = filtro.TipoProduto == TipoProduto.Vendidos ? true : false;
+        var tipoProduto = filtro.TipoProduto ?? TipoProduto.Todos;
+        var isVendido = tipoProduto == TipoProduto.Vendidos ? true : false;
 
         try
         {
-            data = _context.Produtos.OrderBy(x => x.Id);
-            if (filtro.TipoProduto != TipoProduto.Todos)
-                data = data.Where(x => x.Vendido == isVendido).OrderBy(x => x.Id);
+            data = _context.Produtos;
+            
+            if (tipoProduto != TipoProduto.Todos)
+                data = data.Where(x => x.Vendido == isVendido);
             if (filtro.Nome != null)
-                data = data.Where(x => x.Nome.Contains(filtro.Nome)).OrderBy(x => x.Id);
+                data = data.Where(x => x.Nome.Contains(filtro.Nome));
 
-            pagination.Data = data.ToList();
+            pagination.Data = data.OrderBy(x => x.Id).ToList();
             pagination.PageNumber = filtro.PageNumber;
             pagination.PageSize = filtro.PageSize;
             pagination.Formater();
@@ -70,7 +72,7 @@ public class ProdutoService : IProdutoInterface
         return response;
     }
 
-    public async Task<ServiceResponse<List<Produto>>> GetProdutoNaoVendido()
+    public async Task<ServiceResponse<List<Produto>>> GetProdutosNaoVendido()
     {
         ServiceResponse<List<Produto>> response = new();
 
@@ -88,19 +90,19 @@ public class ProdutoService : IProdutoInterface
         return response;
     }
 
-    public async Task<ServiceResponse<List<Produto>>> CreateProduto(ProdutoDto produto)
+    public async Task<ServiceResponse<Produto>> CreateProduto(ProdutoDto produto)
     {
-        ServiceResponse<List<Produto>> response = new();
+        ServiceResponse<Produto> response = new();
 
         try
         {
             Validar(produto);
-            
+
             Produto novoProduto = new Produto { Nome = produto.Nome, Preco = produto.Preco };
-            
+
             _context.Produtos.Add(novoProduto);
             await _context.SaveChangesAsync();
-            response.Objeto = _context.Produtos.OrderBy(x => x.Id).ToList();
+            response.Objeto = novoProduto;
             response.Mensagem = $"Produto {novoProduto.Nome} criado com sucesso!";
         }
         catch (Exception e)
@@ -112,9 +114,9 @@ public class ProdutoService : IProdutoInterface
         return response;
     }
 
-    public async Task<ServiceResponse<List<Produto>>> DeleteProduto(int id)
+    public async Task<ServiceResponse<Produto>> DeleteProduto(int id)
     {
-        ServiceResponse<List<Produto>> response = new();
+        ServiceResponse<Produto> response = new();
 
         Produto produto = _context.Produtos.FirstOrDefault(x => x.Id == id);
 
@@ -126,7 +128,7 @@ public class ProdutoService : IProdutoInterface
             _context.Produtos.Remove(produto);
             await _context.SaveChangesAsync();
 
-            response.Objeto = _context.Produtos.OrderBy(x => x.Id).ToList();
+            response.Objeto = produto;
             response.Mensagem = $"Produto de id {id} e nome {produto.Nome}, deletado com sucesso!";
         }
         catch (Exception e)
@@ -138,23 +140,23 @@ public class ProdutoService : IProdutoInterface
         return response;
     }
 
-    public async Task<ServiceResponse<List<Produto>>> UpdateProduto(ProdutoDto produto)
+    public async Task<ServiceResponse<Produto>> UpdateProduto(ProdutoDto newProduto)
     {
-        ServiceResponse<List<Produto>> response = new();
+        ServiceResponse<Produto> response = new();
 
         try
         {
-            var prod = _context.Produtos.FirstOrDefault(x => x.Id == produto.Id);
-            
-            Validar(produto);
-            
-            prod.Nome = produto.Nome;
-            prod.Preco = produto.Preco;
+            var produto = _context.Produtos.FirstOrDefault(x => x.Id == newProduto.Id);
 
-            _context.Produtos.Update(prod);
+            Validar(newProduto);
+
+            produto.Nome = newProduto.Nome;
+            produto.Preco = newProduto.Preco;
+
+            _context.Produtos.Update(produto);
             _context.SaveChanges();
 
-            response.Objeto = _context.Produtos.OrderBy(x => x.Id).ToList();
+            response.Objeto = produto;
             response.Mensagem = $"Produto de id {produto.Id} e nome {produto.Nome}, atualizado com sucesso!";
         }
         catch (Exception e)

@@ -23,14 +23,14 @@ public class VendaService : IVendaInterface
     {
         ServiceResponse<PaginationHelper<Venda>> response = new();
         PaginationHelper<Venda> pagination = new();
-
+        var Query = _context.Vendas.Include(x => x.Produtos).AsQueryable();
         try
         {
-            pagination.Data = _context.Vendas.Include(x => x.Produtos).ToList();
+            pagination.Data = Query.ToList();
             pagination.PageNumber = pageNumber;
             pagination.PageSize = pageSize;
             pagination.Formater();
-                
+
             response.Objeto = pagination;
             response.Mensagem = "Vendas retornadas com sucesso!";
         }
@@ -49,8 +49,9 @@ public class VendaService : IVendaInterface
 
         try
         {
-            response.Objeto = _context.Vendas.Include(x => x.Produtos).FirstOrDefault(x => x.Id == id);
-            response.Mensagem = "Venda retornada com sucesso!";
+            Venda venda = _context.Vendas.Include(x => x.Produtos).FirstOrDefault(x => x.Id == id);
+            response.Objeto = venda;
+            response.Mensagem = venda == null ? "Venda não encontrada!" : "Venda retornada com sucesso!";
         }
         catch (Exception e)
         {
@@ -92,7 +93,7 @@ public class VendaService : IVendaInterface
         }
     }
 
-    public async Task<ServiceResponse<Venda>> DeleProdutoVenda(int idProduto)
+    public async Task<ServiceResponse<Venda>> DeleteProdutoVenda(int idProduto)
     {
         ServiceResponse<Venda> response = new();
         Produto produto = _context.Produtos.FirstOrDefault(x => x.Id == idProduto);
@@ -105,6 +106,9 @@ public class VendaService : IVendaInterface
 
             venda.Produtos.Remove(produto);
             venda.ValorTotal -= produto.Preco;
+
+            if (venda.Produtos.Count <= 1)
+                _context.Vendas.Remove(venda);
 
             produto.Vendido = false;
 
@@ -127,48 +131,53 @@ public class VendaService : IVendaInterface
         var produtos = vendaDto.Produtos;
         Venda venda = new Venda();
 
-        try
+        using (var transaction = await _context.Database.BeginTransactionAsync())
         {
-            venda = _context.Vendas.Add(venda).Entity;
-            venda.Desconto = vendaDto.Desconto;
-            await _context.SaveChangesAsync();
-
-            foreach (var id in produtos)
+            try
             {
-                var produto = _context.Produtos.FirstOrDefault(x => x.Id == id);
-                if (produto != null)
+                venda.Desconto = vendaDto.Desconto ?? 0;
+                _context.Vendas.Add(venda);
+                await _context.SaveChangesAsync();
+
+                foreach (var id in produtos)
                 {
-                    produto.Vendido = true;
-                    venda.Produtos.Add(produto);
-                    venda.ValorTotal += produto.Preco;
+                    var produto = _context.Produtos.FirstOrDefault(x => x.Id == id);
+
+                    if (produto.Vendido)
+                        throw new Exception("Produto " + produto.Nome + " já está vendido.");
+
+                    if (produto != null)
+                    {
+                        produto.Vendido = true;
+                        venda.Produtos.Add(produto);
+                        venda.ValorTotal += produto.Preco;
+                    }
                 }
+
+                venda.ValorTotal -= venda.Desconto;
+                venda.Desconto = Math.Round(venda.Desconto, 2);
+                venda.ValorTotal = Math.Round(venda.ValorTotal, 2);
+
+                if (produtos.Count == 0)
+                    throw new Exception("Nenhum produto selecionado.");
+
+                if (venda.ValorTotal <= vendaDto.Desconto)
+                    throw new Exception("Desconto maior que o valor total da compra.");
+
+                _context.Vendas.Update(venda);
+                await _context.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+
+                response.Objeto = venda;
+                response.Mensagem = "Venda efetuada com sucesso!";
             }
-
-            venda.ValorTotal -= venda.Desconto;
-
-            if (produtos.Count == 0)
-                throw new Exception("Nenhum produto selecionado.");
-
-            if (venda.ValorTotal <= vendaDto.Desconto)
-                throw new Exception("Desconto maior que o valor total da compra.");
-
-            _context.Vendas.Update(venda);
-            await _context.SaveChangesAsync();
-
-            response.Objeto = venda;
-            response.Mensagem = $"Venda efetuada com sucesso!";
-        }
-        catch (Exception e)
-        {
-            _context.Vendas.Remove(venda);
-            await _context.SaveChangesAsync();
-
-            _context.Dispose();
-            await _context.DisposeAsync();
-
-            await _context.DisposeAsync();
-            response.Mensagem = e.Message;
-            response.Successo = false;
+            catch (Exception e)
+            {
+                await transaction.RollbackAsync();
+                response.Mensagem = e.Message;
+                response.Successo = false;
+            }
         }
 
         return response;
