@@ -19,16 +19,21 @@ public class VendaService : IVendaInterface
         _context = context;
     }
 
-    public async Task<ServiceResponse<PaginationHelper<Venda>>> GetVendas(int pageNumber, int pageSize)
+    public async Task<ServiceResponse<PaginationHelper<Venda>>> GetVendas(VendaFiltro filtro)
     {
         ServiceResponse<PaginationHelper<Venda>> response = new();
         PaginationHelper<Venda> pagination = new();
-        var Query = _context.Vendas.Include(x => x.Produtos).AsQueryable();
+        
         try
         {
+            var Query = _context.Vendas.Include(x => x.Produtos).AsQueryable();
+            
+            if(filtro.NomeProduto != null)
+                Query = Query.Where(x => x.Produtos.Any(x => x.Nome.ToLower().Contains(filtro.NomeProduto.ToLower())));
+            
             pagination.Data = Query.ToList();
-            pagination.PageNumber = pageNumber;
-            pagination.PageSize = pageSize;
+            pagination.PageNumber = filtro.PageNumber;
+            pagination.PageSize = filtro.PageSize;
             pagination.Formater();
 
             response.Objeto = pagination;

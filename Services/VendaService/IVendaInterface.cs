@@ -5,7 +5,7 @@ namespace Back.Services.VendaService;
 
 public interface IVendaInterface
 {
-    Task<ServiceResponse<PaginationHelper<Venda>>> GetVendas(int pageNumber, int pageSize);
+    Task<ServiceResponse<PaginationHelper<Venda>>> GetVendas(VendaFiltro filtro);
     Task<ServiceResponse<Venda>> GetVendaById(int id);
     Task<ServiceResponse<Venda>> DeleteVenda(int id);
     Task<ServiceResponse<Venda>>DeleteProdutoVenda(int idProduto);

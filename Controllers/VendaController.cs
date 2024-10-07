@@ -20,9 +20,9 @@ public class VendaController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ServiceResponse<PaginationHelper<Venda>>> GetVendas(int pageNumber, int pageSize)
+    public async Task<ServiceResponse<PaginationHelper<Venda>>> GetVendas([FromQuery] VendaFiltro filtro)
     {
-        return await _vendaInterface.GetVendas(pageNumber, pageSize);
+        return await _vendaInterface.GetVendas(filtro);
     }
 
     [HttpGet("{id}")]

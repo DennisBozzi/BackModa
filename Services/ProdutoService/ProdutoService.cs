@@ -31,7 +31,7 @@ public class ProdutoService : IProdutoInterface
             if (tipoProduto != TipoProduto.Todos)
                 data = data.Where(x => x.Vendido == isVendido);
             if (filtro.Nome != null)
-                data = data.Where(x => x.Nome.Contains(filtro.Nome));
+                data = data.Where(x => x.Nome.ToLower().Contains(filtro.Nome.ToLower()));
 
             pagination.Data = data.OrderBy(x => x.Id).ToList();
             pagination.PageNumber = filtro.PageNumber;
