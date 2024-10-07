@@ -1,14 +1,6 @@
 using Back.Configurations;
-using Back.Services.AuthService;
-using FirebaseAdmin;
 using Back.Context;
-using Back.Services.ProdutoService;
-using Back.Services.VendaService;
-using Google.Apis.Auth.OAuth2;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using DotNetEnv;
 
 var builder = WebApplication.CreateBuilder(args);
