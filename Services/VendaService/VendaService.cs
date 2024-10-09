@@ -112,7 +112,7 @@ public class VendaService : IVendaInterface
             venda.Produtos.Remove(produto);
             venda.ValorTotal -= produto.Preco;
 
-            if (venda.Produtos.Count <= 1)
+            if (venda.Produtos.Count < 1)
                 _context.Vendas.Remove(venda);
 
             produto.Vendido = false;
